@@ -40,7 +40,7 @@ The repository is organized as follows:
 ```plaintext
 ├── exercises
 │   ├── CalculatorGradleExercise
-│   │   ├── Exercise1.java
+│   │   ├── Calculator.java
 │   │   ├── Exercise2.java
 │   │   └── ...
 │   ├── module2
