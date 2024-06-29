@@ -1,23 +1,54 @@
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Test Math Operations in Calculator Class")
 class CalculatorTest {
+    Calculator calculator;
 
-    @Test
-    void integerDivision(){
-        //Arrange
-        Calculator calculator= new Calculator();
-        //Act
-        int result = calculator.integerDivision(4,2);
-        //Assert
-        assertEquals(2, result, "Integer division did not produce expected result");
+    @BeforeAll
+    static void setUp(){
+        System.out.println("executing @BeforeAll method.");
     }
+
+    @AfterAll
+    static void cleanUp(){
+        System.out.println("Executing @AfterAll Method");
+    }
+
+    @BeforeEach
+    void beforeEachTestMethod(){
+        calculator = new Calculator();
+        System.out.println("Executing @BeforeEach method");
+    }
+
+    @AfterEach
+    void afterEachTestMethod(){
+        System.out.println("Executing @AfterEach method");
+    }
+    @DisplayName("Test 4/2 = 2")
+    @Test
+    void testIntegerDivision_WhenFourIsDividedByTwo_ShouldReturnTwo(){
+        //Arrange // GIVEN that we have these preconditions
+        int dividend = 4;
+        int divisor =2;
+        int expectedResult = 2;
+        //Act //WHEN use these conditions and invoke our method
+        int actualResult = calculator.integerDivision(dividend,divisor);
+        //Assert //THEN the following should be true
+        assertEquals(expectedResult, actualResult, "Integer division did not produce expected result");
+    }
+    @DisplayName("Division By Zero")
+    @Test
+    void testIntegerDivision_WhenDividendIsDividedByZero_ShouldThrowArithmethicException(){
+//        fail("Not implemented yet");
+    }
+
 
     @Test
     void integerSubtraction(){
         //Arrange
-        Calculator calculator= new Calculator();
+//        Calculator calculator= new Calculator();
         //Act
         int result = calculator.integerSubtraction(6,2);
         //Assert
