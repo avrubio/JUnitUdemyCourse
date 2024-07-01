@@ -78,13 +78,13 @@ System.out.println("Running Test " +minuend+ "-" + subtrahend + "= " + expectedR
             minuend + "-" + subtrahend + " did not produce "+ expectedResult
                 );
     }
-private static Stream<Arguments> integerSubtraction(){
-        return Stream.of(
-                Arguments.of(33,1,32),
-                Arguments.of(24,1,23),
-                Arguments.of(54,1,53)
-
-        );
-}
+//private static Stream<Arguments> integerSubtraction(){
+//        return Stream.of(
+//                Arguments.of(33,1,32),
+//                Arguments.of(24,1,23),
+//                Arguments.of(54,1,53)
+//
+//        );
+//}
 
 }
