@@ -1,4 +1,9 @@
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,15 +61,28 @@ class CalculatorTest {
         assertEquals(expectedMessage, actualMessage.getMessage());
     }
 
-
-    @Test
-    void integerSubtraction(){
+    @DisplayName("Test integer subtraction [minuend, subtrahend, expectedResult]")
+    @ParameterizedTest
+    @MethodSource()
+    void integerSubtraction(int minuend, int subtrahend, int expectedResult){
         //Arrange
-//        Calculator calculator= new Calculator();
+System.out.println("Running Test " +minuend+ "-" + subtrahend + "= " + expectedResult);
+
         //Act
-        int result = calculator.integerSubtraction(6,2);
+        int actualResult = calculator.integerSubtraction(minuend,subtrahend);
         //Assert
-        assertEquals(4, result, "Integer subtraction did not produce expected result");
+        assertEquals(expectedResult, actualResult,
+                ()->
+            minuend + "-" + subtrahend + " did not produce "+ expectedResult
+                );
     }
+private static Stream<Arguments> integerSubtraction(){
+        return Stream.of(
+                Arguments.of(33,1,32),
+                Arguments.of(24,1,23),
+                Arguments.of(54,1,53)
+
+        );
+}
 
 }
