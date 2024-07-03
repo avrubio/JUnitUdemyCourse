@@ -41,12 +41,18 @@ The repository is organized as follows:
 ├── exercises
 │   ├── CalculatorGradleExercise
 │   │   ├── Calculator.java
-│   │   ├── Exercise2.java
-│   │   └── ...
-│   ├── module2
-│   │   ├── Exercise1.java
-│   │   ├── Exercise2.java
-│   │   └── ...
+│   │   └── src > test > java
+│   │        ├── CalculatorTest
+│   │        ├── DemoRepeatedTest
+│   │        ├── DemoTest.java
+│   │        └── MethodOrderedRandomlyTest
+│   │  
+│   ├── ClassesOrderDemo
+│   │   └── src > test > java
+│   │        ├── OrderServiceTest
+│   │        ├── ProductServiceTest
+│   │        └── UserServiceTest
+│   │   
 │   └── ...
 ├── projects
 │   ├── project1
