@@ -1,15 +1,25 @@
 package com.invadethecode.service;
 
+import com.invadethecode.data.UsersRepository;
 import com.invadethecode.model.User;
 import com.invadethecode.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-    UserService userService;
+    @InjectMocks
+    UserServiceImpl userService;
+    @Mock
+    UsersRepository usersRepository;
     String firstName;
     String lastName;
     String email;
@@ -19,7 +29,7 @@ public class UserServiceTest {
     //Arrange for each test instance
     @BeforeEach
     void init() {
-        userService = new UserServiceImpl();
+        userService = new UserServiceImpl(usersRepository);
         firstName = "ari";
         lastName = "vanegas";
         email = "test@aol.com";
@@ -30,7 +40,8 @@ public class UserServiceTest {
     @DisplayName("User object created")
     @Test
     void testCreateUser_whenUserDetailsProvided_ReturnUserObject() {
-
+    //Arrange
+        Mockito.when(usersRepository.save(Mockito.any(User.class))).thenReturn(true);
         //Act
         User user = userService.createUser(firstName, lastName, email, password, repeatPassword);
         //Assert
