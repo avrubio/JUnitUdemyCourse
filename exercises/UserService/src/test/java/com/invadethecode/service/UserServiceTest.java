@@ -9,10 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -20,6 +22,8 @@ public class UserServiceTest {
     UserServiceImpl userService;
     @Mock
     UsersRepository usersRepository;
+    @Mock
+    EmailVerificationServiceImpl emailVerificationService;
     String firstName;
     String lastName;
     String email;
@@ -41,7 +45,7 @@ public class UserServiceTest {
     @Test
     void testCreateUser_whenUserDetailsProvided_ReturnUserObject() {
     //Arrange
-        Mockito.when(usersRepository.save(Mockito.any(User.class))).thenReturn(true);
+        when(usersRepository.save(any(User.class))).thenReturn(true);
         //Act
         User user = userService.createUser(firstName, lastName, email, password, repeatPassword);
         //Assert
@@ -50,8 +54,8 @@ public class UserServiceTest {
         assertEquals(lastName, user.getLastName(), "users last name does not match");
         assertEquals(email, user.getEmail(), "users email does not match");
         assertNotNull(user.getId(), "user id is missing");
-        Mockito.verify(usersRepository, Mockito.times(1))
-                .save(Mockito.any(User.class));
+        verify(usersRepository, times(1))
+                .save(any(User.class));
     }
 
     @DisplayName("Empty first name causes correct exception")
@@ -102,5 +106,38 @@ public class UserServiceTest {
         //Assert
         assertEquals("passwords do not match", thrown.getMessage(),
                 "Exception error message is not correct");
+    }
+
+    @DisplayName("If save() method causes RuntimeException, a UserServiceException is thrown")
+    @Test
+    void testCreateUser_whenSaveMethodThrowsException_thenThrowsUserServiceException(){
+        //arrange
+        when(usersRepository.save(any(User.class))).thenThrow(RuntimeException.class);
+
+        //act & assert
+        assertThrows(UserServiceException.class, ()-> {
+            userService.createUser(firstName,lastName,email,password,repeatPassword);
+        }, "should have thrown UserserviceException instead");
+
+        //assert
+    }
+
+    @DisplayName("EmailNotification is handled")
+    @Test
+    void testCreateUser_whenEmailNotificationExceptionThrown_throwsUserServiceException(){
+
+        when(usersRepository.save(any(User.class))).thenReturn(true);
+
+        doThrow(EmailNotificationServiceException.class)
+                .when(emailVerificationService)
+                        .scheduleEmailConfirmation(any(User.class));
+
+
+        assertThrows(UserServiceException.class, ()-> {
+            userService
+                    .createUser(firstName,lastName,email,password,repeatPassword);
+        }, "Should have thrown UserServiceException instead");
+
+        verify(emailVerificationService, times(1)).scheduleEmailConfirmation(any(User.class));
     }
 }
