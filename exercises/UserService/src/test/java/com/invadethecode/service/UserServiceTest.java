@@ -51,6 +51,43 @@ public class UserServiceTest {
         }, "Empty first name should have cause and Illegal Argument Exception");
         //Assert
         assertEquals("User's first name is empty", thrown.getMessage(),
-                "Exception error messsage is not correct");
+                "Exception error message is not correct");
+    }
+    @DisplayName("Empty  last name causes correct exception")
+    @Test
+    void testCreateUser_whenLastNameIsEmpty_throwsIllegalArgumentException() {
+        lastName = "";
+        //Act & Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(firstName, lastName, email, password, repeatPassword);
+        }, "Empty last name should have cause and Illegal Argument Exception");
+        //Assert
+        assertEquals("User's last name is empty", thrown.getMessage(),
+                "Exception error message is not correct");
+    }
+    @DisplayName("Empty email causes correct exception")
+    @Test
+    void testCreateUser_whenEmailIsEmpty_throwsIllegalArgumentException() {
+        email = "";
+        //Act & Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(firstName, lastName, email, password, repeatPassword);
+        }, "Empty email should have cause and Illegal Argument Exception");
+        //Assert
+        assertEquals("User's email is empty", thrown.getMessage(),
+                "Exception error message is not correct");
+    }
+    @DisplayName("Non matching passwords causes correct exception")
+    @Test
+    void testCreateUser_whenPasswordsDoNotMatch_throwsIllegalArgumentException() {
+        password = "hello";
+        repeatPassword= "h3llo";
+        //Act & Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(firstName, lastName, email, password, repeatPassword);
+        }, "Passwords not matching should have cause and Illegal Argument Exception");
+        //Assert
+        assertEquals("passwords do not match", thrown.getMessage(),
+                "Exception error message is not correct");
     }
 }
