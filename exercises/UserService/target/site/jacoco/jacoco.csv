@@ -1,0 +1,7 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+UserService,com.invadethecode.data,UsersRepositoryImpl,27,0,2,0,7,0,3,0,2,0
+UserService,com.invadethecode.service,UserServiceImpl,9,89,4,12,2,24,5,6,1,2
+UserService,com.invadethecode.service,EmailVerificationServiceImpl,3,1,0,0,1,1,1,1,1,1
+UserService,com.invadethecode.service,EmailNotificationServiceException,4,0,0,0,2,0,1,0,1,0
+UserService,com.invadethecode.service,UserServiceException,0,4,0,0,0,2,0,1,0,1
+UserService,com.invadethecode.model,User,16,27,0,0,8,10,4,5,4,5

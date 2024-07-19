@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito.*;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,12 +34,13 @@ public class UserServiceTest {
     //Arrange for each test instance
     @BeforeEach
     void init() {
-        userService = new UserServiceImpl(usersRepository);
+//        userService = new UserServiceImpl(usersRepository);
         firstName = "ari";
         lastName = "vanegas";
         email = "test@aol.com";
         password = "1234567";
         repeatPassword = "1234567";
+        MockitoAnnotations.openMocks(this);
     }
 
     @DisplayName("User object created")
@@ -132,7 +134,6 @@ public class UserServiceTest {
                 .when(emailVerificationService)
                         .scheduleEmailConfirmation(any(User.class));
 
-
         assertThrows(UserServiceException.class, ()-> {
             userService
                     .createUser(firstName,lastName,email,password,repeatPassword);
@@ -140,4 +141,22 @@ public class UserServiceTest {
 
         verify(emailVerificationService, times(1)).scheduleEmailConfirmation(any(User.class));
     }
+
+    @Test
+    void testCreateUser_whenUserCreated_schedulesEmailConfirmation(){
+    //Arrange
+        when(usersRepository.save(any(User.class))).thenReturn(true);
+
+        doCallRealMethod().when(emailVerificationService)
+                .scheduleEmailConfirmation(any(User.class));
+
+        //act
+        userService
+                .createUser(firstName,lastName,email,password,repeatPassword);
+        //assert
+        verify(emailVerificationService, times(1))
+                .scheduleEmailConfirmation(any(User.class));
+    }
+
+
 }
