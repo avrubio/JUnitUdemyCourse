@@ -74,11 +74,22 @@ public class UsersControllerWebLayerTest {
     @Test
     @DisplayName("First name is not empty")
     void testCreateUser_whenFirstNameIsNotProvided_returns400Statuscode() throws Exception {
-        UserDetailsRequestModel userDetailsRequestModel = new UserDetailsRequestModel();
         userDetailsRequestModel.setFirstName("");
-        userDetailsRequestModel.setLastName("Vanegas");
-        userDetailsRequestModel.setEmail("ari@aol.com");
-        userDetailsRequestModel.setPassword("12345678");
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(userDetailsRequestModel));
+
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+
+        assertEquals(400, mvcResult.getResponse().getStatus(), "incorrect status code returned");
+    }
+
+    @Test
+    @DisplayName("First name is not empty")
+    void testCreateUser_whenFirstNameIsLessThan2Characters_returns400Statuscode() throws Exception {
+        userDetailsRequestModel.setFirstName("A");
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
