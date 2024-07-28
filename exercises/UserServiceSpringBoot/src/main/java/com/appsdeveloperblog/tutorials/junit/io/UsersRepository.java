@@ -15,5 +15,5 @@ public interface UsersRepository extends PagingAndSortingRepository<UserEntity, 
     UserEntity findByEmailEndsWith(String email);
 
     @Query("SELECT user FROM UserEntity user WHERE user.email like %:emailDomain")
-    List<UserEntity> findUsersWithEmailEndingWith(@Param("emailDomain")String email);
+    List<UserEntity> findUsersWithEmailEndingWith(@Param("emailDomain")String emailDomain);
 }
