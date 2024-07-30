@@ -50,14 +50,6 @@ public class UsersRepositoryTest {
     }
     @Test
     void testFindByEmail_whenGivenCorrectEmail_returnsUserEntity(){
-        // arrange
-//        UserEntity user = new UserEntity();
-//       user.setFirstName("Ari");
-//       user.setLastName("Vanegas");
-//        user.setEmail("Ari@aol.com");
-//        user.setUserId(UUID.randomUUID().toString());
-//        user.setEncryptedPassword("123456789");
-//        testEntityManager.persistAndFlush(user);
         // act
       UserEntity storedUser =  usersRepository.findByEmail(email1);
         // assert
@@ -66,15 +58,6 @@ public class UsersRepositoryTest {
 
     @Test
     void testFindByUserId_whenCorrectUserIdIsGiven_returnsUserEntity(){
-//        // arrange
-//        UserEntity user = new UserEntity();
-//        user.setFirstName("Ari");
-//        user.setLastName("Vanegas");
-//        user.setEmail("Ari@aol.com");
-//        user.setUserId(UUID.randomUUID().toString());
-//        user.setEncryptedPassword("123456789");
-//        testEntityManager.persistAndFlush(user);
-
         UserEntity storedUser =  usersRepository.findByUserId(userId2);
 
         assertEquals(userId2, storedUser.getUserId(), "Returned User id does NOT match");

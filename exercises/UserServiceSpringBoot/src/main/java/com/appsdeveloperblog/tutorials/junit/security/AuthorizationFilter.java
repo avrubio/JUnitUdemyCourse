@@ -2,6 +2,8 @@ package com.appsdeveloperblog.tutorials.junit.security;
 
 import com.appsdeveloperblog.tutorials.junit.io.UserEntity;
 import com.appsdeveloperblog.tutorials.junit.io.UsersRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,20 +47,22 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(SecurityConstants.HEADER_STRING);
 
         if (token != null) {
-
+            // Remove the prefix (if any)
             token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
 
-            String user = Jwts.parser()
-                    .setSigningKey( SecurityConstants.TOKEN_SECRET)
-                    .parseClaimsJws( token )
-                    .getBody()
-                    .getSubject();
+            // Create the JwtParser using the JwtParserBuilder
+            JwtParser parser = Jwts.parser()
+                    .setSigningKey(SecurityConstants.TOKEN_SECRET)
+                    .build();
 
+            // Parse the token
+            Claims claims = parser.parseClaimsJws(token).getBody();
+            String user = claims.getSubject();
+
+            // Create the authentication token if the user is present
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, null);
             }
-
-            return null;
         }
 
         return null;
